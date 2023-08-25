@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-
+from django.core.exceptions import ValidationError
 
 class User(AbstractUser):
     """Пользовательская модель"""
@@ -16,3 +16,37 @@ class User(AbstractUser):
     def __str__(self) -> str:
         return f"{self.first_name} {self.last_name}"
     
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="follower",
+        verbose_name="Подписчик"
+    )
+    author = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="following",
+        verbose_name="Автор"
+    )
+
+    def clean(self):
+        if self.user == self.author:
+            raise ValidationError('Нельзя подписаться на себя самого')
+
+    class Meta:
+        verbose_name = "Подписчик"
+        verbose_name_plural = "Подписчики"
+        unique_together = ['user', 'author']
+        constraints = [
+            models.CheckConstraint(
+                check=~models.Q(
+                    user=models.F('author')
+                ),
+                name='not_self_sub'
+            ),
+        ]
+
+    def __str__(self):
+        return f"{self.user} подписан на {self.author}"
