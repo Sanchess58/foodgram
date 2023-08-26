@@ -5,16 +5,15 @@ User = get_user_model()
 
 
 class Ingridients(models.Model):
-    title = models.CharField(verbose_name="Название ингридиента", null=False)
-    quantity = models.FloatField(verbose_name="Количество ингридиента", null=False)
-    unit = models.CharField(verbose_name="Единица измерения", max_length=5, null=False)
+    name = models.CharField(verbose_name="Название ингридиента", null=False)
+    measurement_unit = models.CharField(verbose_name="Единица измерения", max_length=5, null=False)
 
     class Meta:
         verbose_name = "Ингридиент"
-        verbose_name_plural = "Ингридиент"
+        verbose_name_plural = "Ингридиенты"
 
     def __str__(self) -> str:
-        return self.title
+        return self.name
 
 
 class Tags(models.Model):
@@ -39,7 +38,7 @@ class Receipts(models.Model):
     ingridients = models.ManyToManyField(Ingridients, related_name="ingridients", verbose_name="Ингридиенты")
     text_description = models.TextField(verbose_name="Текстовое описание", null=False)
     cook_time = models.TimeField(verbose_name="Время приготовления", null=False)
-    tag = models.ForeignKey(Tags, verbose_name="Тег", related_name="tags",on_delete=models.DO_NOTHING)
+    tag = models.ManyToManyField(Tags, verbose_name="Тег", related_name="tags")
 
     class Meta:
         verbose_name = "Рецепт"
