@@ -1,6 +1,8 @@
-from rest_framework import viewsets, permissions, pagination
+from rest_framework import permissions, pagination
 from django.contrib.auth import get_user_model
 from djoser.views import UserViewSet
+from djoser import views
+
 User = get_user_model()
 
 

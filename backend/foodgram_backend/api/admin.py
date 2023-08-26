@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Receipts, Tags, Ingridients
+from .models import Recipes,  Tags, Ingridients
 
 # class TagInline(admin.TabularInline):
 #     model = Tags
@@ -15,11 +15,15 @@ class IngridientsAdmin(admin.ModelAdmin):
     pass
 
 
+class TagInline(admin.TabularInline):
+    model = Recipes.tag.through
+    extra = 0
+
 class IngridientsInline(admin.TabularInline):
-    model = Receipts.ingridients.through
+    model = Recipes.ingridients.through
     extra = 0
 
 
-@admin.register(Receipts)
+@admin.register(Recipes)
 class ReceiptsAdmin(admin.ModelAdmin):
-    inlines = [IngridientsInline]
+    inlines = [IngridientsInline, TagInline]

@@ -1,10 +1,10 @@
-from .models import Receipts
+from .models import Recipes
 from rest_framework import serializers
 
 
 class ReceiptsViewSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Receipts
+        model = Recipes
         fields = [
             'author',
             'title',

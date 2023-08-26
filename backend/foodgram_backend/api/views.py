@@ -1,6 +1,8 @@
 from rest_framework import viewsets, permissions, pagination
-from .models import Receipts
+from .models import Recipes
 from .serializers import ReceiptsViewSerializer
+from rest_framework.decorators import action
+
 
 class CustomPageNumberPagination(pagination.PageNumberPagination):
     page_size_query_param = 'limit'
@@ -8,11 +10,12 @@ class CustomPageNumberPagination(pagination.PageNumberPagination):
 
 class ReceiptViewSet(viewsets.ModelViewSet):
     """CRUD для рецептов"""
-    queryset = Receipts.objects.all()
+    queryset = Recipes.objects.all()
     serializer_class = ReceiptsViewSerializer
     permission_classes = [permissions.AllowAny]
     pagination_class = pagination.LimitOffsetPagination
 
+    @action(detail=True, methods=['post'], permission_classes=permissions.IsAuthenticated)
     def perform_create(self, serializer):
-        """Создание поста."""
+        """Создание рецепта."""
         serializer.save(author=self.request.user)

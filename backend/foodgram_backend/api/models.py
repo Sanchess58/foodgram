@@ -30,7 +30,7 @@ class Tags(models.Model):
         return self.title
 
 
-class Receipts(models.Model):
+class Recipes(models.Model):
     """Модель описывающая рецепты"""
     author = models.ForeignKey(User, related_name="author", verbose_name='Пользователь', on_delete=models.CASCADE)
     title = models.CharField(verbose_name="Название", max_length=200, null=False)

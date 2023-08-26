@@ -4,9 +4,9 @@ from django.core.exceptions import ValidationError
 
 class User(AbstractUser):
     """Пользовательская модель"""
-    first_name = models.CharField(max_length=30)
-    last_name = models.CharField(max_length=150)
-    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=30, verbose_name="Имя")
+    last_name = models.CharField(max_length=150, verbose_name="Фамилия")
+    email = models.EmailField(unique=True, verbose_name="Электронная почта")
 
     class Meta: 
         ordering = ('id',)
