@@ -6,7 +6,7 @@ User = get_user_model()
 
 class Ingridients(models.Model):
     name = models.CharField(verbose_name="Название ингридиента", null=False)
-    measurement_unit = models.CharField(verbose_name="Единица измерения", max_length=5, null=False)
+    measurement_unit = models.CharField(verbose_name="Единица измерения", null=False)
 
     class Meta:
         verbose_name = "Ингридиент"
