@@ -1,5 +1,8 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.db.models import UniqueConstraint
+from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 User = get_user_model()
 
@@ -46,3 +49,82 @@ class Recipes(models.Model):
 
     def __str__(self) -> str:
         return f"{self.author} - {self.title}"
+    
+
+class IngredientRecipe(models.Model):
+    """Модель для связи ингредиентов и рецептов."""
+
+    ingredient = models.ForeignKey(
+        Ingridients,
+        on_delete=models.CASCADE,
+        verbose_name='Ингредиент'
+    )
+    recipe = models.ForeignKey(
+        Recipes,
+        on_delete=models.CASCADE,
+        related_name='recipe_ingredients',
+        verbose_name='Рецепт'
+    )
+    amount = models.PositiveIntegerField(
+        validators=[MaxValueValidator(1000),
+                    MinValueValidator(1)],
+        blank=False,
+        verbose_name='Количество'
+    )
+
+    class Meta:
+        ordering = ('recipe', 'id',)
+        verbose_name = 'Ингредиенты рецепта'
+        verbose_name_plural = 'Ингредиенты рецептов'
+        constraints = [UniqueConstraint(
+            fields=('recipe', 'ingredient'),
+            name='unique_recipe_ingredient',
+            violation_error_message='Этот ингредиент уже есть в рецепте.'
+        )
+        ]
+
+
+class BaseUserRecipeRelation(models.Model):
+    """Базовый класс для моделей с отношением рецепт-пользователь."""
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        verbose_name='Пользователь',
+    )
+    recipe = models.ForeignKey(
+        Recipes,
+        on_delete=models.CASCADE,
+        verbose_name='Рецепт',
+    )
+
+    class Meta:
+        abstract = True
+        constraints = [UniqueConstraint(
+            fields=('user', 'recipe'),
+            name='unique_user_and_relation_recipe')]
+
+    def __str__(self):
+        return f'{self.user} и {self.recipe}'
+
+
+class Favorite(BaseUserRecipeRelation):
+    """Модель для добавления рецептов в избранное."""
+
+    class Meta:
+        verbose_name = 'Избранное'
+        verbose_name_plural = 'Избранное'
+        constraints = [UniqueConstraint(
+            fields=('user', 'recipe'),
+            name='unique_user_and_favorite_recipe')]
+
+
+class BuyList(BaseUserRecipeRelation):
+    """Модель для добавления в БД рецептов в корзину."""
+
+    class Meta:
+        verbose_name = 'Корзина'
+        verbose_name_plural = 'Корзины'
+        constraints = [UniqueConstraint(
+            fields=('user', 'recipe'),
+            name='unique_user_and_buylist_recipe')]
