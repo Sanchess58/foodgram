@@ -3,8 +3,7 @@ from .models import Recipes, Tags, Ingridients
 from .serializers import ReceiptsViewSerializer, TagsSerializer, IngridientsSerializer
 from rest_framework.decorators import action
 from rest_framework import generics
-from django.db.models import UniqueConstraint
-from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 class CustomPageNumberPagination(pagination.PageNumberPagination):
     page_size_query_param = 'limit'
