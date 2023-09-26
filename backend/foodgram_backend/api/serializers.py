@@ -34,7 +34,7 @@ class IngridientsSerializer(serializers.ModelSerializer):
 
     
 class Base64ImageField(serializers.ImageField):
-    """Класс для работы с изображениями в формате base64."""
+    """Класс для работы с изображениями."""
 
     def to_internal_value(self, data):
         if isinstance(data, str) and data.startswith('data:image'):

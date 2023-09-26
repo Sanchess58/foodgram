@@ -1,9 +1,6 @@
 from django.contrib import admin
 from .models import Recipes,  Tags, Ingridients
 
-# class TagInline(admin.TabularInline):
-#     model = Tags
-#     extra = 0
 
 @admin.register(Tags)
 class TagAdmin(admin.ModelAdmin):
@@ -16,11 +13,11 @@ class IngridientsAdmin(admin.ModelAdmin):
 
 
 class TagInline(admin.TabularInline):
-    model = Recipes.tag.through
+    model = Recipes.tags.through
     extra = 0
 
 class IngridientsInline(admin.TabularInline):
-    model = Recipes.ingridients.through
+    model = Recipes.ingredients.through
     extra = 0
 
 

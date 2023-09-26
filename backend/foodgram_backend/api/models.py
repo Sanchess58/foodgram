@@ -21,8 +21,8 @@ class Ingridients(models.Model):
 
 class Tags(models.Model):
     """Модель описывающая тег"""
-    title = models.CharField(verbose_name="Название тега", null=False)
-    hex_code = models.CharField(verbose_name="Код цвета", max_length=10, null=False)
+    name = models.CharField(verbose_name="Название тега", null=False)
+    color = models.CharField(verbose_name="Код цвета", max_length=10, null=False)
     slug = models.SlugField(verbose_name="Слаг", null=False)
 
     class Meta:
@@ -30,25 +30,27 @@ class Tags(models.Model):
         verbose_name_plural = "Теги"
 
     def __str__(self) -> str:
-        return self.title
+        return self.name
 
 
 class Recipes(models.Model):
     """Модель описывающая рецепты"""
     author = models.ForeignKey(User, related_name="author", verbose_name='Пользователь', on_delete=models.CASCADE)
-    title = models.CharField(verbose_name="Название", max_length=200, null=False)
+    name = models.CharField(verbose_name="Название", max_length=200, null=False)
     image = models.ImageField(upload_to="image/", null=False)
-    ingridients = models.ManyToManyField(Ingridients, related_name="ingridients", verbose_name="Ингридиенты")
-    text_description = models.TextField(verbose_name="Текстовое описание", null=False)
-    cook_time = models.TimeField(verbose_name="Время приготовления", null=False)
-    tag = models.ManyToManyField(Tags, verbose_name="Тег", related_name="tags")
+    ingredients = models.ManyToManyField(Ingridients, related_name="recipes", verbose_name="Ингридиенты")
+    text = models.TextField(verbose_name="Текстовое описание", null=False)
+    cooking_time = models.TimeField(verbose_name="Время приготовления", null=False)
+    tags = models.ManyToManyField(Tags, verbose_name="Тег", related_name="recipes")
+    is_favorited = models.BooleanField(verbose_name="В избранном ли", default=False)
+    is_in_shopping_cart = models.BooleanField(verbose_name="Находится ли в корзине", default=False)
 
     class Meta:
         verbose_name = "Рецепт"
         verbose_name_plural = "Рецепты"
 
     def __str__(self) -> str:
-        return f"{self.author} - {self.title}"
+        return f"{self.author} - {self.name}"
     
 
 class IngredientRecipe(models.Model):

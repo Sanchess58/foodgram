@@ -6,7 +6,7 @@ from api.models import Ingridients
 
 
 class Command(BaseCommand):
-    help = 'Загрузка данных из json файла в модель Ingredients.'
+    help = 'Загрузка данных из json файла.'
 
     def add_arguments(self, parser):
         parser.add_argument('json_file', type=str, help='Путь до JSON файла.')
@@ -19,11 +19,10 @@ class Command(BaseCommand):
         with open(json_file, 'r', encoding='utf-8') as file:
             data = json.load(file)
 
-        # Создание списка объектов модели для bulk_create
         objects_to_create = [
             Ingridients(name=item['name'],
                        measurement_unit=item['measurement_unit'])
             for item in data
         ]
         Ingridients.objects.bulk_create(objects_to_create)
-        self.stdout.write(self.style.SUCCESS('Данные загружены в БД.'))
+        self.stdout.write(self.style.SUCCESS('Загрузка завершена!'))
