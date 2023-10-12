@@ -1,0 +1,38 @@
+[
+{
+  "model": "users.user",
+  "pk": 1,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$z6KA2T0K6u0P7WJhgDFIXz$uzTc3MuwLPZ0bzv7TiWJbtpKr9c0WN8lMYtTJcFpG/4=",
+    "last_login": "2023-10-07T11:31:10Z",
+    "is_superuser": true,
+    "username": "admin",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2023-10-07T11:30:34Z",
+    "first_name": "admin",
+    "last_name": "admin",
+    "email": "admin@admin.ru",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "users.user",
+  "pk": 2,
+  "fields": {
+    "password": "pbkdf2_sha256$600000$Gpu0yauHcf9zUa9Mx5x67F$3hg3cCas84qoE5JlNQGjNXYOFxGqPJdYDP1W9b/s7Oo=",
+    "last_login": "2023-10-07T11:34:38.660Z",
+    "is_superuser": false,
+    "username": "sanchess58",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2023-10-07T11:34:33.713Z",
+    "first_name": "Михаил",
+    "last_name": "Неклюдов",
+    "email": "Sanchess2015@yandex.ru",
+    "groups": [],
+    "user_permissions": []
+  }
+}
+]
