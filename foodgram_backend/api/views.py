@@ -39,7 +39,11 @@ class RecipesViewSet(viewsets.ModelViewSet):
             return api_serializers.RecipesViewSerializer
         return api_serializers.RecipeCreateUpdateSerializer
 
-    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    @action(
+        detail=True,
+        methods=['post'],
+        permission_classes=[permissions.IsAuthenticated]
+    )
     def perform_create(self, serializer):
         """Создание рецепта."""
         serializer.save(author=self.request.user)
@@ -72,7 +76,12 @@ class RecipesViewSet(viewsets.ModelViewSet):
 
         user = request.user
         recipe = get_object_or_404(api_models.Recipes, id=pk)
-        status_type = utils.check_list_shopping_request_type(request, user, recipe, pk)
+        status_type = utils.check_list_shopping_request_type(
+            request,
+            user,
+            recipe,
+            pk
+        )
         if status_type == "delete":
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status_type, status=status.HTTP_201_CREATED)

@@ -1,5 +1,12 @@
 from django.contrib import admin
-from .models import Recipes, Tags, Ingredients, IngredientsInRecipe, Favorites, ListShopping
+from .models import (
+    Recipes,
+    Tags,
+    Ingredients,
+    IngredientsInRecipe,
+    Favorites,
+    ListShopping
+)
 
 
 @admin.register(Favorites)
@@ -25,6 +32,7 @@ class IngridientsAdmin(admin.ModelAdmin):
 class TagInline(admin.TabularInline):
     model = Recipes.tags.through
     extra = 0
+
 
 class IngridientsInline(admin.TabularInline):
     model = Recipes.ingredients.through

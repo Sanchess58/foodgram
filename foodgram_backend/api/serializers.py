@@ -3,7 +3,6 @@ from rest_framework import serializers, status, validators
 from django.core.files.base import ContentFile
 import base64
 from users.serializers import CustomUserSerializer
-from django.db.models import F
 from users.models import Follow
 
 
@@ -38,6 +37,7 @@ class Base64ImageField(serializers.ImageField):
 
         return super().to_internal_value(data)
 
+
 class IngredientInRecipeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField(source="ingredients.id")
 
@@ -61,14 +61,19 @@ class IngredientInRecipeSerializer(serializers.ModelSerializer):
             "amount",
         )
 
+
 class RecipesViewSerializer(serializers.ModelSerializer):
     """Сериализатор для модели рецептов."""
     tags = TagsSerializer(many=True)
-    ingredients = IngredientInRecipeSerializer(source="ingredient_in_recipe", many=True)
+    ingredients = IngredientInRecipeSerializer(
+        source="ingredient_in_recipe",
+        many=True
+    )
     image = Base64ImageField()
     author = CustomUserSerializer(required=False)
     is_favorited = serializers.SerializerMethodField(read_only=True)
     is_in_shopping_cart = serializers.SerializerMethodField(read_only=True)
+
     class Meta:
         model = api_models.Recipes
         fields = [
@@ -128,12 +133,14 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
         fields = ('id', 'tags', 'author', 'ingredients', 'is_favorited',
                   'is_in_shopping_cart', 'name', 'image', 'text',
                   'cooking_time')
-    
+
     def create_ingredients(self, ingredients, recipe):
         """Метод создания ингредиента"""
         api_models.IngredientsInRecipe.objects.bulk_create(
             [api_models.IngredientsInRecipe(
-                ingredients=api_models.Ingredients.objects.get(id=ingredient['id']),
+                ingredients=api_models.Ingredients.objects.get(
+                    id=ingredient['id']
+                ),
                 recipe=recipe,
                 amount=ingredient['amount']
             ) for ingredient in ingredients]
@@ -158,7 +165,7 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
         self.create_tags(validated_data.pop('tags'), instance)
 
         return super().update(instance, validated_data)
-    
+
 
 class ShortInfoRecipeSerializer(serializers.ModelSerializer):
     """Сериализатор для добавления в избранное."""
@@ -210,5 +217,9 @@ class FollowSerializer(CustomUserSerializer):
         recipes = obj.author.all()
         if limit:
             recipes = recipes[:int(limit)]
-        serializer = ShortInfoRecipeSerializer(recipes, many=True, read_only=True)
+        serializer = ShortInfoRecipeSerializer(
+            recipes,
+            many=True,
+            read_only=True
+        )
         return serializer.data

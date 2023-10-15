@@ -21,6 +21,7 @@ class RecipesTagsFilter(django_filters.FilterSet):
         to_field_name='slug',
         queryset=api_models.Tags.objects.all(),
     )
+
     class Meta:
         model = api_models.Recipes
         fields = ('tags', 'author')

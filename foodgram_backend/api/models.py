@@ -1,6 +1,5 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from django.db.models import UniqueConstraint
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
@@ -9,7 +8,10 @@ User = get_user_model()
 
 class Ingredients(models.Model):
     name = models.CharField(verbose_name="Название ингредиента", null=False)
-    measurement_unit = models.CharField(verbose_name="Единица измерения", null=False)
+    measurement_unit = models.CharField(
+        verbose_name="Единица измерения",
+        null=False
+    )
 
     class Meta:
         verbose_name = "Ингредиент"
@@ -22,7 +24,11 @@ class Ingredients(models.Model):
 class Tags(models.Model):
     """Модель описывающая тег"""
     name = models.CharField(verbose_name="Название тега", null=False)
-    color = models.CharField(verbose_name="Код цвета", max_length=10, null=False)
+    color = models.CharField(
+        verbose_name="Код цвета",
+        max_length=10,
+        null=False
+    )
     slug = models.SlugField(verbose_name="Слаг", null=False)
 
     class Meta:
@@ -35,15 +41,44 @@ class Tags(models.Model):
 
 class Recipes(models.Model):
     """Модель описывающая рецепты"""
-    author = models.ForeignKey(User, related_name="author", verbose_name='Пользователь', on_delete=models.CASCADE)
-    name = models.CharField(verbose_name="Название", max_length=200, null=False)
+    author = models.ForeignKey(
+        User,
+        related_name="author",
+        verbose_name='Пользователь',
+        on_delete=models.CASCADE
+    )
+    name = models.CharField(
+        verbose_name="Название",
+        max_length=200,
+        null=False
+    )
     image = models.ImageField(upload_to="image/", null=False)
-    ingredients = models.ManyToManyField(Ingredients, related_name="recipes", verbose_name="Ингредиенты")
-    text = models.TextField(verbose_name="Текстовое описание", null=False)
-    cooking_time = models.IntegerField(verbose_name="Время приготовления", null=False)
-    tags = models.ManyToManyField(Tags, verbose_name="Теги", related_name="recipes")
-    is_favorited = models.BooleanField(verbose_name="В избранном ли", default=False)
-    is_in_shopping_cart = models.BooleanField(verbose_name="Находится ли в корзине", default=False)
+    ingredients = models.ManyToManyField(
+        Ingredients,
+        related_name="recipes",
+        verbose_name="Ингредиенты"
+    )
+    text = models.TextField(
+        verbose_name="Текстовое описание",
+        null=False
+    )
+    cooking_time = models.IntegerField(
+        verbose_name="Время приготовления",
+        null=False
+    )
+    tags = models.ManyToManyField(
+        Tags,
+        verbose_name="Теги",
+        related_name="recipes"
+    )
+    is_favorited = models.BooleanField(
+        verbose_name="В избранном ли",
+        default=False
+    )
+    is_in_shopping_cart = models.BooleanField(
+        verbose_name="Находится ли в корзине",
+        default=False
+    )
 
     class Meta:
         verbose_name = "Рецепт"
@@ -79,6 +114,7 @@ class IngredientsInRecipe(models.Model):
     def __str__(self):
         return f'{self.ingredients} в {self.recipe}'
 
+
 class TagRecipe(models.Model):
     """Модель связи тегов и рецепта."""
 
@@ -101,7 +137,7 @@ class TagRecipe(models.Model):
 
     def __str__(self):
         return f'{self.tag} в {self.recipe}'
-    
+
 
 class ListShopping(models.Model):
     """Модель описывающая cписок покупок."""
@@ -125,7 +161,7 @@ class ListShopping(models.Model):
 
     def __str__(self):
         return f'у {self.user} есть {self.recipe}'
-    
+
 
 class Favorites(models.Model):
     """Модель избранных рецептов."""

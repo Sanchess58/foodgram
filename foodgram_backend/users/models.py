@@ -2,20 +2,32 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 
+
 class User(AbstractUser):
     """Пользовательская модель"""
-    first_name = models.CharField(max_length=30, verbose_name="Имя", blank=True)
-    last_name = models.CharField(max_length=150, verbose_name="Фамилия", blank=True)
-    email = models.EmailField(unique=True, verbose_name="Электронная почта")
+    first_name = models.CharField(
+        max_length=30,
+        verbose_name="Имя",
+        blank=True
+    )
+    last_name = models.CharField(
+        max_length=150,
+        verbose_name="Фамилия",
+        blank=True
+    )
+    email = models.EmailField(
+        unique=True,
+        verbose_name="Электронная почта"
+    )
 
-    class Meta: 
+    class Meta:
         ordering = ('id',)
         verbose_name = 'Пользователь'
         verbose_name_plural = 'Пользователи'
-    
+
     def __str__(self) -> str:
         return f"{self.email}"
-    
+
 
 class Follow(models.Model):
     user = models.ForeignKey(

@@ -14,11 +14,12 @@ class CustomPageNumberPagination(pagination.PageNumberPagination):
     page_size_query_param = 'limit'
     max_page_size = 6
 
+
 class CustomUserViewSet(UserViewSet):
     queryset = User.objects.all()
     permission_classes = [permissions.IsAuthenticated]
     pagination_class = CustomPageNumberPagination
-    
+
     @action(
         detail=True,
         methods=['post', 'delete'],
