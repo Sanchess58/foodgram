@@ -133,7 +133,7 @@ DJOSER = {
     },
     'LOGIN_FIELD': 'email'
 }
-AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend',]
+AUTHENTICATION_BACKENDS = ['django.contrib.auth.backends.ModelBackend']
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(days=1),
     "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
