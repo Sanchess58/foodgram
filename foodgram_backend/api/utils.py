@@ -1,7 +1,6 @@
-from api import models as api_models
-
-from api import serializers as api_serializers
 from api import exceptions as api_exception
+from api import models as api_models
+from api import serializers as api_serializers
 
 
 def check_favorites_request_type(request, user, recipe):

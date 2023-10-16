@@ -1,6 +1,7 @@
 import django_filters
-from api import models as api_models
 from rest_framework import filters
+
+from api import models as api_models
 
 
 class IngredientsFilter(django_filters.FilterSet):

@@ -1,9 +1,11 @@
-from api import models as api_models
-from rest_framework import serializers, status, validators
-from django.core.files.base import ContentFile
 import base64
-from users.serializers import CustomUserSerializer
+
+from django.core.files.base import ContentFile
+from rest_framework import serializers, status, validators
 from users.models import Follow
+from users.serializers import CustomUserSerializer
+
+from api import models as api_models
 
 
 class IngredientsInRecipeSerializer(serializers.ModelSerializer):

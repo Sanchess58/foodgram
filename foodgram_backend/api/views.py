@@ -1,19 +1,17 @@
-from django.shortcuts import get_object_or_404
-from rest_framework import viewsets, permissions, pagination, status
-from api import models as api_models
-from api import serializers as api_serializers
-from rest_framework.decorators import action
-from django_filters.rest_framework import DjangoFilterBackend
-from .filters import (
-    IngredientsFilter,
-    RecipesTagsFilter,
-    FavoriteFilterBackend,
-    ListShoppingFilterBackend
-)
-from rest_framework.response import Response
-from api import utils
 from django.db.models import Sum
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import pagination, permissions, status, viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from api import models as api_models
+from api import serializers as api_serializers
+from api import utils
+
+from .filters import (FavoriteFilterBackend, IngredientsFilter,
+                      ListShoppingFilterBackend, RecipesTagsFilter)
 
 
 class CustomPageNumberPagination(pagination.PageNumberPagination):
