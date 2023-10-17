@@ -58,7 +58,7 @@ class RecipesViewSet(viewsets.ModelViewSet):
         user = request.user
         recipe = get_object_or_404(api_models.Recipes, id=pk)
         status_type = utils.check_favorites_request_type(request, user, recipe)
-        if status_type == "delete":
+        if status_type == 'delete':
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status_type, status=status.HTTP_201_CREATED)
 
@@ -80,7 +80,7 @@ class RecipesViewSet(viewsets.ModelViewSet):
             recipe,
             pk
         )
-        if status_type == "delete":
+        if status_type == 'delete':
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status_type, status=status.HTTP_201_CREATED)
 

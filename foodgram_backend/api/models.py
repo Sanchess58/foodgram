@@ -1,6 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from foodgram_backend.settings import MAX_AMOUNT, MIN_AMOUNT
 
 User = get_user_model()
 
@@ -9,12 +10,12 @@ class Ingredients(models.Model):
     name = models.CharField(verbose_name="Название ингредиента", null=False)
     measurement_unit = models.CharField(
         verbose_name="Единица измерения",
-        null=False
     )
 
     class Meta:
         verbose_name = "Ингредиент"
         verbose_name_plural = "Ингредиенты"
+        ordering = ('name',)
 
     def __str__(self) -> str:
         return self.name
@@ -26,13 +27,13 @@ class Tags(models.Model):
     color = models.CharField(
         verbose_name="Код цвета",
         max_length=10,
-        null=False
     )
     slug = models.SlugField(verbose_name="Слаг", null=False)
 
     class Meta:
         verbose_name = "Тег"
         verbose_name_plural = "Теги"
+        ordering = ('name',)
 
     def __str__(self) -> str:
         return self.name
@@ -49,7 +50,6 @@ class Recipes(models.Model):
     name = models.CharField(
         verbose_name="Название",
         max_length=200,
-        null=False
     )
     image = models.ImageField(upload_to="image/", null=False)
     ingredients = models.ManyToManyField(
@@ -59,11 +59,13 @@ class Recipes(models.Model):
     )
     text = models.TextField(
         verbose_name="Текстовое описание",
-        null=False
     )
-    cooking_time = models.IntegerField(
+    cooking_time = models.PositiveSmallIntegerField(
         verbose_name="Время приготовления",
-        null=False
+        validators=[
+            MinValueValidator(MIN_AMOUNT),
+            MaxValueValidator(MAX_AMOUNT)
+        ]
     )
     tags = models.ManyToManyField(
         Tags,
@@ -82,6 +84,7 @@ class Recipes(models.Model):
     class Meta:
         verbose_name = "Рецепт"
         verbose_name_plural = "Рецепты"
+        ordering = ('cooking_time', 'name')
 
     def __str__(self) -> str:
         return f"{self.author} - {self.name}"
@@ -103,12 +106,16 @@ class IngredientsInRecipe(models.Model):
     )
     amount = models.PositiveSmallIntegerField(
         verbose_name='Количество',
-        validators=[MinValueValidator(1), MaxValueValidator(10000)]
+        validators=[
+            MinValueValidator(MIN_AMOUNT),
+            MaxValueValidator(MAX_AMOUNT)
+        ]
     )
 
     class Meta:
         verbose_name = "Ингредиенты в рецепте"
         verbose_name_plural = "Ингредиенты в рецептах"
+        ordering = ("amount",)
 
     def __str__(self):
         return f'{self.ingredients} в {self.recipe}'

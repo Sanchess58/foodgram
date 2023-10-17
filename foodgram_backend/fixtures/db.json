@@ -17538,5 +17538,32 @@
       "groups": [],
       "user_permissions": []
     }
+  },
+  {
+    "model": "api.tags",
+    "pk": 1,
+    "fields": {
+      "name": "Завтрак",
+      "color": "#C08081",
+      "slug": "breakfast"
+    }
+  },
+  {
+    "model": "api.tags",
+    "pk": 2,
+    "fields": {
+      "name": "Обед",
+      "color": "#45322E",
+      "slug": "dinner"
+    }
+  },
+  {
+    "model": "api.tags",
+    "pk": 3,
+    "fields": {
+      "name": "Ужин",
+      "color": "#18171C",
+      "slug": "dinner_night"
+    }
   }
 ]

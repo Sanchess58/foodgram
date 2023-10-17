@@ -1,9 +1,11 @@
+import os
 
 from pathlib import Path
 from dotenv import load_dotenv
 from datetime import timedelta
-import os
+
 load_dotenv()
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
@@ -12,14 +14,13 @@ SECRET_KEY = os.getenv(
     default="django-insecure-%#_^615f_8ic#8sk79vhy6_w^2hxl%zk+p_o7(rz8rn=8p(zkz"
 )
 
-# DEBUG = 'true' == os.getenv(
-#     'DEBUG',
-#     default='True'
-# ).lower()
-DEBUG = True
+DEBUG = 'true' == os.getenv(
+    'DEBUG',
+    default='True'
+).lower()
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '158.160.21.197', 'foodgramsanchess.hopto.org']
-CSRF_TRUSTED_ORIGINS = ['https://foodgramsanchess.hopto.org']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', default='127.0.0.1 localhost 158.160.21.197 foodgramsanchess.hopto.org').split()
+CSRF_TRUSTED_ORIGINS = os.getenv('CSRF_TRUSTED_ORIGINS', default='https://foodgramsanchess.hopto.org').split()
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -122,7 +123,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 FILE_NAME_TXT = 'shoppinglist.txt'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
+MAX_AMOUNT = 32000
+MIN_AMOUNT = 1
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 DJOSER = {

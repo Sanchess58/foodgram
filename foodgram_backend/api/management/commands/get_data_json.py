@@ -1,8 +1,9 @@
 import json
 import os
 
-from api.models import Ingredients
 from django.core.management.base import BaseCommand
+
+from api.models import Ingredients
 
 
 class Command(BaseCommand):
