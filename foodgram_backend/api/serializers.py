@@ -1,8 +1,8 @@
 import base64
 
+from django.conf import settings
 from django.core.files.base import ContentFile
 from django.core.validators import MaxValueValidator, MinValueValidator
-from django.conf import settings
 from rest_framework import serializers, status, validators
 
 from users.serializers import CustomUserSerializer

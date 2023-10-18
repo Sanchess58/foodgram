@@ -7,20 +7,11 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from api import utils
-from .models import (
-    Recipes,
-    IngredientsInRecipe,
-    Tags,
-    Ingredients
-)
-from .serializers import (
-    RecipesViewSerializer,
-    RecipeCreateUpdateSerializer,
-    TagsSerializer,
-    IngredientsSerializer
-)
 from .filters import (FavoriteFilterBackend, IngredientsFilter,
                       ListShoppingFilterBackend, RecipesTagsFilter)
+from .models import Ingredients, IngredientsInRecipe, Recipes, Tags
+from .serializers import (IngredientsSerializer, RecipeCreateUpdateSerializer,
+                          RecipesViewSerializer, TagsSerializer)
 
 
 class CustomPageNumberPagination(pagination.PageNumberPagination):

@@ -1,7 +1,7 @@
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from django.conf import settings
 
 User = get_user_model()
 
@@ -140,7 +140,7 @@ class TagRecipe(models.Model):
     class Meta:
         verbose_name = 'Теги в рецепте'
         verbose_name_plural = 'Теги в рецептах'
-        ordering=('id',)
+        ordering = ('id',)
 
     def __str__(self):
         return f'{self.tag} в {self.recipe}'
@@ -165,7 +165,7 @@ class ListShopping(models.Model):
     class Meta:
         verbose_name = 'Список покупок'
         verbose_name_plural = 'Списки покупок'
-        ordering=('id',)
+        ordering = ('id',)
 
     def __str__(self):
         return f'у {self.user} есть {self.recipe}'
@@ -190,7 +190,7 @@ class Favorites(models.Model):
     class Meta:
         verbose_name = 'Избранный рецепт'
         verbose_name_plural = 'Избранные рецепты'
-        ordering=('id',)
+        ordering = ('id',)
 
         constraints = [
             models.UniqueConstraint(
