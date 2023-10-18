@@ -1,4 +1,4 @@
-from api.serializers import FollowSerializer
+
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from djoser.views import UserViewSet
@@ -6,6 +6,7 @@ from rest_framework import pagination, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
+from api.serializers import FollowSerializer
 from .models import Follow
 
 User = get_user_model()
@@ -33,7 +34,7 @@ class CustomUserViewSet(UserViewSet):
             serializer = FollowSerializer(
                 author,
                 data=request.data,
-                context={"request": request}
+                context={'request': request}
             )
             serializer.is_valid(raise_exception=True)
             Follow.objects.create(user=user, author=author)

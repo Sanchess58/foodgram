@@ -1,12 +1,12 @@
 from api import exceptions, serializers
-
 from .models import Favorites, ListShopping
 
 
 def check_favorites_request_type(request, user, recipe):
     """Проверка типа запроса."""
+    user_favorite_filter = user.favorites.filter(recipe=recipe)
     if request.method == 'POST':
-        if user.favorites.filter(recipe=recipe).exists():
+        if user_favorite_filter.exists():
             raise exceptions.FavouriteException(
                 {'errors': (f'Невозможно добавить {recipe.name}')},
             )
@@ -15,8 +15,8 @@ def check_favorites_request_type(request, user, recipe):
         return serializer.data
 
     if request.method == 'DELETE':
-        if user.favorites.filter(recipe=recipe).exists():
-            user.favorites.filter(recipe=recipe).delete()
+        if user_favorite_filter.exists():
+            user_favorite_filter.delete()
             return "delete"
 
         raise exceptions.FavouriteException(
@@ -25,6 +25,7 @@ def check_favorites_request_type(request, user, recipe):
 
 
 def check_list_shopping_request_type(request, user, recipe, pk):
+    user_shopping_filter = user.buy.filter(recipe__id=pk)
     if request.method == 'POST':
         if user.buy.filter(recipe=recipe).exists():
             return exceptions.ListShopingException(
@@ -36,8 +37,8 @@ def check_list_shopping_request_type(request, user, recipe, pk):
         return serializer.data
 
     if request.method == 'DELETE':
-        if user.buy.filter(recipe__id=pk).exists():
-            user.buy.filter(recipe__id=pk).delete()
+        if user_shopping_filter.exists():
+            user_shopping_filter.delete()
             return "delete"
         return exceptions.ListShopingException(
             {'errors': f'Нельзя удалить рецепт - \"{recipe.name}\", '

@@ -10,5 +10,5 @@ router.register(r'recipes', RecipesViewSet, basename='recipes')
 router.register(r'tags', TagsViewSet, basename='tags')
 router.register(r'ingredients', IngredientsViewSet, basename='ingredients')
 urlpatterns = [
-    path("", include(router.urls)),
+    path('', include(router.urls)),
 ]

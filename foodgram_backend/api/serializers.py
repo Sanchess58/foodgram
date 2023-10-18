@@ -2,10 +2,10 @@ import base64
 
 from django.core.files.base import ContentFile
 from django.core.validators import MaxValueValidator, MinValueValidator
-from foodgram_backend.settings import MAX_AMOUNT, MIN_AMOUNT
+from django.conf import settings
 from rest_framework import serializers, status, validators
-from users.serializers import CustomUserSerializer
 
+from users.serializers import CustomUserSerializer
 from .models import Ingredients, IngredientsInRecipe, Recipes, Tags
 
 
@@ -16,7 +16,7 @@ class IngredientsInRecipeSerializer(serializers.ModelSerializer):
 
 
 class TagsSerializer(serializers.ModelSerializer):
-    "Сериализатор для модели тегов."
+    """Сериализатор для модели тегов."""
     class Meta:
         model = Tags
         fields = ('id', 'name', 'color', 'slug')
@@ -114,8 +114,8 @@ class CreateIngredientsInRecipeSerializer(serializers.ModelSerializer):
     id = serializers.IntegerField()
     amount = serializers.IntegerField(
         validators=[
-            MinValueValidator(MIN_AMOUNT),
-            MaxValueValidator(MAX_AMOUNT)
+            MinValueValidator(settings.MIN_AMOUNT),
+            MaxValueValidator(settings.MAX_AMOUNT)
         ]
     )
 
@@ -133,8 +133,8 @@ class RecipeCreateUpdateSerializer(serializers.ModelSerializer):
     author = CustomUserSerializer(required=False)
     cooking_time = serializers.IntegerField(
         validators=[
-            MinValueValidator(MIN_AMOUNT),
-            MaxValueValidator(MAX_AMOUNT)
+            MinValueValidator(settings.MIN_AMOUNT),
+            MaxValueValidator(settings.MAX_AMOUNT)
         ]
     )
 
